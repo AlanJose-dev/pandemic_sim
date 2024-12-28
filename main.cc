@@ -12,56 +12,67 @@ int main(int argc, char* argv[]) {
     int numberOfRuns = 1000;
     int populationMatrixSize = 100;
     int numberOfGenerations = 10;
+    double contagionFactor = 0.5;
     bool applySocialDistanceEffect = false;
     int threadCount = 1;
     bool generateImage = false;
     
     //Parse CLI options.
     //Don't move.
-    static struct option longOptions[] = {
-    {"runs", optional_argument, nullptr, 'r'},
-    {"population", optional_argument, nullptr, 'p'},
-    {"generations", optional_argument, nullptr, 'g'},
-    {"social-distance-effect", no_argument, nullptr, 's'},
-    {"threads", optional_argument, nullptr, 't'},
-    {"image", no_argument, nullptr, 'i'},
-    {"help", no_argument, nullptr, 'h'},
-    {"version", no_argument, nullptr, 'v'},
-    {nullptr, 0, nullptr, 0}
-};
 
-    const char* shortOptions = "r:p:g:st:ihv";
+    const char* shortOptions = "r:p:g:st:c:ihv";
 
     int cliOption;
-    while ((cliOption = getopt_long(argc, argv, shortOptions, longOptions, nullptr)) != -1) {
+    while ((cliOption = getopt(argc, argv, shortOptions)) != -1) {
         switch (cliOption) {
             case 'r':
                 numberOfRuns = stoi(optarg);
-                break;
+            break;
             case 'p':
                 populationMatrixSize = stoi(optarg);
-                break;
+            break;
             case 'g':
                 numberOfGenerations = stoi(optarg);
-                break;
+            break;
             case 's':
                 applySocialDistanceEffect = true;
-                break;
+            break;
             case 't':
                 threadCount = stoi(optarg);
-                break;
+            break;
+            case 'c':
+                try
+                {
+                    const int MIN_CONTAGION_FACTOR = 0;
+                    const int MAX_CONTAGION_FACTOR = 1;
+                    double givenContagionFactor = stod(optarg);
+                    if(givenContagionFactor < MIN_CONTAGION_FACTOR || givenContagionFactor > MAX_CONTAGION_FACTOR) {
+                        throw out_of_range("ERROR: The contagion factor must be between " + to_string(MIN_CONTAGION_FACTOR) + " and " + to_string(MAX_CONTAGION_FACTOR) + ".");
+                    }
+                    contagionFactor = givenContagionFactor;
+                }
+                catch(const invalid_argument&)
+                {
+                    cerr << "Error: Invalid argument for -c. Expected a double.\n" << endl;
+                }
+                catch(const out_of_range& exception)
+                {
+                    cerr << exception.what() << endl;
+                    exit(EXIT_FAILURE);
+                }
+            break;
             case 'i':
                 generateImage = true;
-                break;
+            break;
             case 'h': // Handle both --help and -h
                 printHelp();
-                exit(EXIT_SUCCESS); // Terminate the program
+            exit(EXIT_SUCCESS); // Terminate the program
             case 'v':
                 printVersion();
-                exit(EXIT_SUCCESS); // Terminate the program
+            exit(EXIT_SUCCESS); // Terminate the program
             default:
                 cerr << "Unknown option. Use -h or --help for usage information.\n";
-                exit(EXIT_FAILURE);
+            exit(EXIT_FAILURE);
         }
     }
 
@@ -78,7 +89,8 @@ int main(int argc, char* argv[]) {
 
     printHeaders(
         new int[4]{numberOfRuns, populationMatrixSize, numberOfGenerations, threadCount},
-        new bool[2]{applySocialDistanceEffect, generateImage}
+        new bool[2]{applySocialDistanceEffect, generateImage},
+        new double[1]{contagionFactor}
     );
 
     /**
@@ -89,7 +101,7 @@ int main(int argc, char* argv[]) {
         {
             unique_ptr<RandomWalkModelParallel> model;
             for(int i = 0; i < numberOfRuns; ++i) {
-                model = make_unique<RandomWalkModelParallel>(populationMatrixSize, applySocialDistanceEffect, threadCount);
+                model = make_unique<RandomWalkModelParallel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect, threadCount);
                 model->setTransitionProbabilities(transitionProbabilities);
                 model->parallelSimulation(numberOfGenerations);
                 //Print the individuals count based on current state.
@@ -110,7 +122,7 @@ int main(int argc, char* argv[]) {
     else {
         unique_ptr<RandomWalkModel> model;
         for(int i = 0; i < numberOfRuns; ++i) {
-            model = make_unique<RandomWalkModel>(populationMatrixSize, applySocialDistanceEffect);
+            model = make_unique<RandomWalkModel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect);
             model->setTransitionProbabilities(transitionProbabilities);
             model->simulation(numberOfGenerations);
             //Print the individuals count based on current state.

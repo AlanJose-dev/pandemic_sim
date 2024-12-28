@@ -43,7 +43,7 @@ class RandomWalkModel {
          * The disease contagion factor.
          * The default value is 0.5, corresponding to the value of the COVID 19 virus.
          */
-        double contagionFactor = 0.5;
+        double contagionFactor;
 
         /**
          * The population grid size.
@@ -172,8 +172,8 @@ class RandomWalkModel {
         /**
          * Constructor.
          */
-        RandomWalkModel(int size, bool socialDistanceEffect)
-            : populationMatrixSize(size), applySocialDistanceEffect(socialDistanceEffect)
+        RandomWalkModel(int size, double contagionFactor, bool socialDistanceEffect)
+            : populationMatrixSize(size), contagionFactor(contagionFactor), applySocialDistanceEffect(socialDistanceEffect)
         {
             this->randomNumberGenerator = new RandomNumberGenerator();    
             this->initializePopulation();

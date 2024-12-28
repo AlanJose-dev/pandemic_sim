@@ -40,8 +40,8 @@ class RandomWalkModelParallel : public RandomWalkModel {
 
         using RandomWalkModel::RandomWalkModel; // Inherit constructor
 
-        RandomWalkModelParallel(int populationMatrixSize, bool applySocialDistanceEffect, int threadCount):
-         RandomWalkModel(populationMatrixSize, applySocialDistanceEffect), threadCount(threadCount)
+        RandomWalkModelParallel(int populationMatrixSize, double contagionFactor, bool applySocialDistanceEffect, int threadCount):
+         RandomWalkModel(populationMatrixSize, contagionFactor, applySocialDistanceEffect), threadCount(threadCount)
         {
             this->currentProcessorAvailableThreads = thread::hardware_concurrency();
             this->throwIfMaximumThreadsIsExceeded();
