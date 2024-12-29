@@ -31,10 +31,8 @@ class RandomNumberGenerator {
 
     public:
 
-        double getRandomNumber()
+        double getRandomNumber(double minValue = 0, double maxValue = 1)
         {
-            const double minValue = 0.0;
-            const double maxValue = 1.0;
             static std::uniform_real_distribution<> dis(minValue, maxValue);
             return dis(this->getGenerator());
         }
