@@ -96,9 +96,9 @@ int main(int argc, char* argv[]) {
     /**
      * Executes the model.
      */
-    if(isMultiThreading) {
-        try
-        {
+    try
+    {
+        if(isMultiThreading) {
             unique_ptr<RandomWalkModelParallel> model;
             for(int i = 0; i < numberOfRuns; ++i) {
                 model = make_unique<RandomWalkModelParallel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect, threadCount);
@@ -113,25 +113,30 @@ int main(int argc, char* argv[]) {
             }
             return EXIT_SUCCESS;
         }
-        catch(invalid_argument& e)
-        {
-            cerr << e.what() << endl;
-            abort();
+        else {
+            unique_ptr<RandomWalkModel> model;
+            for(int i = 0; i < numberOfRuns; ++i) {
+                model = make_unique<RandomWalkModel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect);
+                model->setTransitionProbabilities(transitionProbabilities);
+                model->simulation(numberOfGenerations);
+                //Print the individuals count based on current state.
+                cout << model->getStateCount(State::dead) << endl;
+            }
+            if(generateImage) {
+                model->generateImage();
+                cout << "\nImage generated" << endl;
+            }
+            return EXIT_SUCCESS;
         }
     }
-    else {
-        unique_ptr<RandomWalkModel> model;
-        for(int i = 0; i < numberOfRuns; ++i) {
-            model = make_unique<RandomWalkModel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect);
-            model->setTransitionProbabilities(transitionProbabilities);
-            model->simulation(numberOfGenerations);
-            //Print the individuals count based on current state.
-            cout << model->getStateCount(State::dead) << endl;
-        }
-        if(generateImage) {
-            model->generateImage();
-            cout << "\nImage generated" << endl;
-        }
-        return EXIT_SUCCESS;
+    catch(invalid_argument& exception)
+    {
+        cerr << exception.what() << endl;
+        abort();
+    }
+    catch(exception& exception)
+    {
+        cerr << exception.what() << endl;
+        abort();
     }
 }

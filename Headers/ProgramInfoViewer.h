@@ -31,7 +31,7 @@ void printHeaders(int intParams[4], bool boolParams[2], double doubleParams[1])
     cout << "-------------------------------------------------------------------------------------------" << endl;
     printASCIIArt();
     cout << "-- Number of runs: " << intParams[0] << endl;
-    cout << "-- Population matrix size: " << intParams[1] << endl;
+    cout << "-- Population matrix size: " << intParams[1] << " (" << intParams[1] * intParams[1] << " individuals)" << endl;
     cout << "-- Number of generations: " << intParams[2] << endl;
     cout << "-- Disease contagion factor: " << doubleParams[0] << endl;
     cout << "-- Social distance effect applyied: " << boolToString(boolParams[0]) << endl;
