@@ -7,7 +7,8 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     //Default params.
     int numberOfRuns = 1000;
     int populationMatrixSize = 100;
