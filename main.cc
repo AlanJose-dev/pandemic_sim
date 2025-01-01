@@ -1,9 +1,9 @@
+#include <getopt.h>
+#include <memory>
 #include "Headers/RandomWalkModel.h"
 #include "Headers/RandomWalkModelParallel.h"
 #include "Headers/State.h"
 #include "Headers/ProgramInfoViewer.h"
-#include <getopt.h>
-#include <memory>
 
 using namespace std;
 
@@ -22,7 +22,6 @@ int main(int argc, char* argv[])
     //Don't move.
 
     const char* shortOptions = "r:p:g:st:c:ihv";
-
     int cliOption;
     while ((cliOption = getopt(argc, argv, shortOptions)) != -1) {
         switch (cliOption) {
@@ -86,7 +85,6 @@ int main(int argc, char* argv[])
         {0.0,  0.05, 0.02, 0.0,  0.93}  // immune
     };
     bool isMultiThreading = threadCount > 1;
-    auto startTime = (chrono::high_resolution_clock::now());
 
     printHeaders(
         new int[4]{numberOfRuns, populationMatrixSize, numberOfGenerations, threadCount},
@@ -112,7 +110,6 @@ int main(int argc, char* argv[])
                 model->generateImage();
                 cout << "\nImage generated" << endl;
             }
-            return EXIT_SUCCESS;
         }
         else {
             unique_ptr<RandomWalkModel> model;
@@ -127,8 +124,9 @@ int main(int argc, char* argv[])
                 model->generateImage();
                 cout << "\nImage generated" << endl;
             }
-            return EXIT_SUCCESS;
         }
+
+        return EXIT_SUCCESS;
     }
     catch(invalid_argument& exception)
     {

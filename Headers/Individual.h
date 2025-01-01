@@ -1,5 +1,6 @@
 #ifndef INDIVIDUAL_H
 #define INDIVIDUAL_H
+
 #include "State.h"
 
 /**
