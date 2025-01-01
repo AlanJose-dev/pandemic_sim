@@ -38,7 +38,7 @@ class RandomWalkModelParallel : public RandomWalkModel {
 
     public:
 
-        using RandomWalkModel::RandomWalkModel; // Inherit constructor
+        using RandomWalkModel::RandomWalkModel; // Inherit constructor.
 
         RandomWalkModelParallel(int populationMatrixSize, double contagionFactor, bool applySocialDistanceEffect, int threadCount):
          RandomWalkModel(populationMatrixSize, contagionFactor, applySocialDistanceEffect), threadCount(threadCount)
@@ -49,7 +49,7 @@ class RandomWalkModelParallel : public RandomWalkModel {
 
         void parallelSimulation(int generations) {
             for (int g = 0; g < generations; ++g) {
-                // Create threads to process chunks of the population grid
+                // Create threads to process chunks of the population grid.
                 vector<thread> threads;
                 int rowsPerThread = this->populationMatrixSize / this->threadCount;
                 int remainingRows = this->populationMatrixSize % this->threadCount;
@@ -63,12 +63,12 @@ class RandomWalkModelParallel : public RandomWalkModel {
                     });
                 }
 
-                // Wait for all threads to finish
+                // Wait for all threads to finish.
                 for (auto& t : threads) {
                     t.join();
                 }
 
-                // Synchronize population data
+                // Synchronize population data.
                 this->population = this->nextPopulation;
             }
         }

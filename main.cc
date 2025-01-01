@@ -21,6 +21,7 @@ int main(int argc, char* argv[])
     //Parse CLI options.
     //Don't move.
 
+    //TODO: Add support to long params.
     const char* shortOptions = "r:p:g:st:c:ihv";
     int cliOption;
     while ((cliOption = getopt(argc, argv, shortOptions)) != -1) {
@@ -64,19 +65,35 @@ int main(int argc, char* argv[])
             case 'i':
                 generateImage = true;
             break;
-            case 'h': // Handle both --help and -h
+            case 'h':
                 printHelp();
-            exit(EXIT_SUCCESS); // Terminate the program
+            exit(EXIT_SUCCESS); //Terminate the program.
             case 'v':
                 printVersion();
-            exit(EXIT_SUCCESS); // Terminate the program
+            exit(EXIT_SUCCESS);
             default:
-                cerr << "Unknown option. Use -h or --help for usage information.\n";
+                cerr << "Unknown option. Use -h for usage information.\n";
             exit(EXIT_FAILURE);
         }
     }
 
     //Switch the probabilities as you need.
+
+    /**
+     * --------------------------------------------------------------
+     *           |  Healthy |  Isolated |   Sick  |  Dead |  Immune
+     *-----------|----------|-----------|---------|-------|----------
+     * Healthy   |   0.62   |    0.3    |   0.05  |  0.0  |  0.03
+     *-----------|----------|-----------|---------|-------|----------
+     * Isolated  |   0.05   |   0.64    |    0.1  | 0.01  |   0.2
+     *-----------|----------|-----------|---------|-------|----------
+     * Sick      |    0.0   |    0.1    |   0.65  |  0.1  |  0.15
+     *-----------|----------|-----------|---------|-------|----------
+     * Dead      |    0.0   |    0.0    |    0.0  |  1.0  |   0.0
+     *-----------|----------|-----------|---------|-------|----------
+     * Immune    |    0.0   |   0.05    |   0.02  |  0.0  |  0.93
+     *-----------|----------|-----------|---------|-------|----------
+     */
     vector<vector<double>> transitionProbabilities = {
         {0.62, 0.3, 0.05, 0.0, 0.03}, // healthy
         {0.05, 0.64, 0.1, 0.01, 0.2}, // isolated
@@ -108,7 +125,7 @@ int main(int argc, char* argv[])
             }
             if(generateImage) {
                 model->generateImage();
-                cout << "\nImage generated" << endl;
+                cout << "\nImage generated." << endl;
             }
         }
         else {
@@ -117,12 +134,11 @@ int main(int argc, char* argv[])
                 model = make_unique<RandomWalkModel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect);
                 model->setTransitionProbabilities(transitionProbabilities);
                 model->simulation(numberOfGenerations);
-                //Print the individuals count based on current state.
                 cout << model->getStateCount(State::dead) << endl;
             }
             if(generateImage) {
                 model->generateImage();
-                cout << "\nImage generated" << endl;
+                cout << "\nImage generated." << endl;
             }
         }
 

@@ -43,7 +43,7 @@ class ImageGenerator {
             };
 
             /**
-             * Iterates over lines and columns and adding pixels corresponding with individual states.
+             * Iterates over lines and columns and adding pixels corresponding with the individual state.
              */
             for(int i = 0; i < lines; ++i) {
                 for(int j = 0; j < columns; ++j) {
