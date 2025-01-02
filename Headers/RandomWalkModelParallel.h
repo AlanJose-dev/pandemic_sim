@@ -13,13 +13,9 @@ class RandomWalkModelParallel : public RandomWalkModel {
     
     private:
     
-        // Attributes =>
-
         int threadCount;
 
         int currentProcessorAvailableThreads;
-
-        // Methods =>
 
         void processChunk(int startRow, int endRow) {
             for (int i = startRow; i < endRow; ++i) {
@@ -68,7 +64,7 @@ class RandomWalkModelParallel : public RandomWalkModel {
                     t.join();
                 }
 
-                // Synchronize population data.
+                // Swap population data.
                 this->population = this->nextPopulation;
             }
         }

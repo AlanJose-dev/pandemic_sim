@@ -17,8 +17,6 @@ class RandomWalkModel {
 
     protected:
 
-        //Attributes =>
-
         /**
          * Random number generator machine.
          */
@@ -54,8 +52,6 @@ class RandomWalkModel {
          * Determines if the lockdown effect is active.
          */
         bool applySocialDistanceEffect;
-
-        //Methods =>
 
         /**
          * Fill the population vectors.
