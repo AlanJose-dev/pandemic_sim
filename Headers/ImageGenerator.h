@@ -7,6 +7,8 @@
 #include "Individual.h"
 #include "State.h"
 
+#define cimg_use_magick
+
 using namespace std;
 using namespace cimg_library;
 
