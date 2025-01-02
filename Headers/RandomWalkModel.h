@@ -209,7 +209,9 @@ class RandomWalkModel {
             const char* imageFilename = "Visual_Example_";
             time_t currentTimestamp;
             time(&currentTimestamp);
-            string fullImageFilename = string(imageFilename) + string(ctime(&currentTimestamp)) + string(".png");
+            char buffer[20];
+            strftime(buffer, sizeof(buffer), "%Y%m%d_%H%M%S", localtime(&currentTimestamp));
+            string fullImageFilename = string(imageFilename) + buffer + ".png";
             ImageGenerator::generate(fullImageFilename.c_str(), this->population);
         }
 
