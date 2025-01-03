@@ -149,6 +149,11 @@ int main(int argc, char* argv[])
         cerr << exception.what() << endl;
         abort();
     }
+    catch(out_of_range& exception)
+    {
+        cerr << exception.what() << endl;
+        abort();
+    }
     catch(exception& exception)
     {
         cerr << exception.what() << endl;
