@@ -2,6 +2,7 @@
 #define PROGRAM_INFO_VIWER_H
 
 #include <iostream>
+#include <thread>
 #include "State.h"
 
 using namespace std;
