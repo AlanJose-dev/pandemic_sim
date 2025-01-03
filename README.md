@@ -105,15 +105,11 @@ of individuals who have the status required in the execution.
 
 ### On Windows
 
-<code>
-.\simulator.exe -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i
-</code>
+<code>.\simulator.exe -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i</code>
 
 ### On Linux
 
-<code>
-./simulator -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i
-</code>
+<code>./simulator -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i</code>
 
 <hr>
 
