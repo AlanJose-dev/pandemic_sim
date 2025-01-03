@@ -142,7 +142,7 @@ Defines the duration of each execution, for the interpretation of the results, i
 #### -c (contagion factor)
 
 <p>
-It defines the contagion factor of the disease, which is a metric that informs its probability of transmission. It is given by values ​​between 0.1 and 1. Any value below or above this range will cause an exception <a href="https://cplusplus.com/reference/stdexcept/out_of_range/"><i>out_of_range</i>< /a>. The default value is 0.5.
+It defines the contagion factor of the disease, which is a metric that informs its probability of transmission. It is given by values ​​between 0.1 and 1. Any value below or above this range will cause an exception <a href="https://cplusplus.com/reference/stdexcept/out_of_range/"><i>out_of_range</i></a>. The default value is 0.5.
 </p>
 
 #### -s (social-distance effect)
@@ -154,7 +154,7 @@ Enables the effect of social distancing/lockdown in the simulation, with this fe
 #### -t (threads)
 
 <p>
-The program supports <a href="https://blog.tecnospeed.com.br/o-que-e-multithreading-e-como-a-tecnica-beneficia-seu-software/">multithreading</a >, but it uses only one thread by default. If the machine has more threads and you wish to use them to distribute the processing load, simply inform the quantity to be used through this parameter. The maximum value is the number of threads present on the current CPU. If a value 0 or greater than the available quantity is passed, it will cause an <i>out_of_range</i> exception. To check the number of threads available, simply consult the processor information or use the <code>-h</code> option, the information will be available there.
+The program supports <a href="https://blog.tecnospeed.com.br/o-que-e-multithreading-e-como-a-tecnica-beneficia-seu-software/">multithreading</a>, but it uses only one thread by default. If the machine has more threads and you wish to use them to distribute the processing load, simply inform the quantity to be used through this parameter. The maximum value is the number of threads present on the current CPU. If a value 0 or greater than the available quantity is passed, it will cause an <i>out_of_range</i> exception. To check the number of threads available, simply consult the processor information or use the <code>-h</code> option, the information will be available there.
 </p>
 
 #### -i (image)
