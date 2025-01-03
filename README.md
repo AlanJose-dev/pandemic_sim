@@ -103,17 +103,7 @@ of individuals who have the status required in the execution.
 <b>Pandemic Sim</b> is a <i>CLI</i> program, which receives parameters for configuring the simulation. To run the program, simply call the <i>simulator</i> executable.
 </p>
 
-### On Windows
-
-<code>
-.\simulator.exe -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i
-</code>
-
-### On Linux
-
-<code>
-./simulator -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i
-</code>
+<code>./simulator -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i</code>
 
 <hr>
 
