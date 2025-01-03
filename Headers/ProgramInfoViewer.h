@@ -4,10 +4,11 @@
 #include <iostream>
 #include <thread>
 #include "State.h"
+#include "MultithreadingController.h"
 
 using namespace std;
 
-const char VERSION[] = "0.4.4";
+const char VERSION[] = "0.4.5";
 
 inline const char * const boolToString(bool boolean)
 {
@@ -51,6 +52,9 @@ void printHelp()
     cout << "Usage: simulator [-v] [-h] [-r <value>] [-p <value>]" << endl;
     cout << "                 [-g <value>] [-s] [-t <value>]" << endl;
     cout << "                 [-c <value>] [-i]" << endl;
+    cout << "\n" << endl;
+    cout << "Multithreading is available: " << boolToString(MultithreadingController::currentProcessorSupportsMultithreading()) << "." << endl;
+    cout << "CPU Threads available: " << MultithreadingController::getCurrentProcessorAvailableThreads() << "." << endl;
     cout << "\n" << endl;
     cout << "Parameter descriptions:" << endl;
     cout << "-v (version)                :       Show the program version." << endl;
