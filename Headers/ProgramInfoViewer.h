@@ -75,7 +75,7 @@ void printVersion()
     printASCIIArt();
     cout << "-------------------------------------------------------------------------------------------" << endl;
     cout << "Pandemic Sim version " << VERSION << endl;
-    cout << "Author: Alan José <alanjsdelima@gmail.com>"<< endl;
+    cout << "Author: Alan Jose <alanjsdelima@gmail.com>"<< endl;
     cout << "Public Domain Code, feel free to use, modify and redistribute it."<< endl;
 }
 

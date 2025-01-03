@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include "RandomWalkModel.h"
+#include "MultithreadingController.h"
 
 using namespace std;
 
@@ -28,7 +29,14 @@ class RandomWalkModelParallel : public RandomWalkModel {
         void throwIfMaximumThreadsIsExceeded()
         {
             if(this->threadCount > this->currentProcessorAvailableThreads) {
-                throw invalid_argument("ERROR: THE REQUESTED THREADS COUNT EXCEEDS THE CURRENT PROCESSOR AVAILABLE THREADS.");
+                throw out_of_range("ERROR: THE REQUESTED THREADS COUNT EXCEEDS THE CURRENT PROCESSOR AVAILABLE THREADS.");
+            }
+        }
+
+        void throwIfMultithreadingIsNotSupported()
+        {
+            if(this->threadCount == 0) {
+                throw out_of_range("ERROR: THE CURRENT PROCESSOR DOES NOT SUPPORTS MULTITHREADING.");
             }
         }
 
@@ -39,7 +47,8 @@ class RandomWalkModelParallel : public RandomWalkModel {
         RandomWalkModelParallel(int populationMatrixSize, double contagionFactor, bool applySocialDistanceEffect, int threadCount):
          RandomWalkModel(populationMatrixSize, contagionFactor, applySocialDistanceEffect), threadCount(threadCount)
         {
-            this->currentProcessorAvailableThreads = thread::hardware_concurrency();
+            this->currentProcessorAvailableThreads = MultithreadingController::getCurrentProcessorAvailableThreads();
+            this->throwIfMultithreadingIsNotSupported();
             this->throwIfMaximumThreadsIsExceeded();
         }
 
