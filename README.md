@@ -1,14 +1,25 @@
-## Usage
+# Pandemic Sim
 
-### Params
+## What is
+
+<p>
+The <b>Pandemic Sim</b> is a program that aims to simulate the result of contamination of a viral disease in a population over a period of weeks.
+</p>
+
+## How it works
+
+<p>
+To carry out the simulation, the program uses the <a href="https://en.wikipedia.org/wiki/Random_walk">Random Walk</a>
+algorithm to change states among individuals in a population, whose quantity is defined by the user, these states are:
+</p>
+
 <ul>
-  <li>-r = number of runs | default: 1000</li>
-  <li>-g = grid size | default: 100</li>
-  <li>-n = number of generations | default: 10</li>
-  <li>-s = apply social distance (1/0) | default: 0</li>
+  <li>Healthy</li>
+  <li>Isolated</li>
+  <li>Sick</li>
+  <li>Dead</li>
+  <li>Immune</li>
 </ul>
-
-<code>C:\path\to\simulator.exe [-r numberOfRuns] [-g gridSize] [-n numberOfGenerations] [-s applySocialDistanceEffect]</code>
 
 <p>
 There is a transition probability for each state, that is, the chance that an individual
