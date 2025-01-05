@@ -1,11 +1,11 @@
-#ifndef MULTITHREADING_CONTROLLER_H
-#define MULTITHREADING_CONTROLLER_H
+#ifndef HARDWARE_INFO_CONTROLLER_H
+#define HARDWARE_INFO_CONTROLLER_H
 
 #include <thread>
 
 using namespace std;
 
-class MultithreadingController {
+class HardwareInfoController {
 
     public:
 
@@ -16,7 +16,7 @@ class MultithreadingController {
 
         static bool currentProcessorSupportsMultithreading()
         {
-            return MultithreadingController::getCurrentProcessorAvailableThreads() > 1;
+            return HardwareInfoController::getCurrentProcessorAvailableThreads() > 1;
         }
 
 };

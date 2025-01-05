@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "State.h"
-#include "MultithreadingController.h"
+#include "HardwareInfoController.h"
 
 using namespace std;
 
@@ -52,8 +52,8 @@ void printHelp()
     cout << "                 [-g <value>] [-s] [-t <value>]" << endl;
     cout << "                 [-c <value>] [-i]" << endl;
     cout << "\n" << endl;
-    cout << "Multithreading is available: " << boolToString(MultithreadingController::currentProcessorSupportsMultithreading()) << "." << endl;
-    cout << "CPU Threads available: " << MultithreadingController::getCurrentProcessorAvailableThreads() << "." << endl;
+    cout << "Multithreading is available: " << boolToString(HardwareInfoController::currentProcessorSupportsMultithreading()) << "." << endl;
+    cout << "CPU Threads available: " << HardwareInfoController::getCurrentProcessorAvailableThreads() << "." << endl;
     cout << "\n" << endl;
     cout << "Parameter descriptions:" << endl;
     cout << "-v (version)                :       Show the program version." << endl;
