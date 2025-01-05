@@ -6,7 +6,7 @@
 #include <vector>
 #include <iostream>
 #include "RandomWalkModel.h"
-#include "HardwareInfoController.h"
+#include "MultithreadingController.h"
 
 using namespace std;
 
@@ -47,7 +47,7 @@ class RandomWalkModelParallel : public RandomWalkModel {
         RandomWalkModelParallel(int populationMatrixSize, double contagionFactor, bool applySocialDistanceEffect, int threadCount):
          RandomWalkModel(populationMatrixSize, contagionFactor, applySocialDistanceEffect), threadCount(threadCount)
         {
-            this->currentProcessorAvailableThreads = HardwareInfoController::getCurrentProcessorAvailableThreads();
+            this->currentProcessorAvailableThreads = MultithreadingController::getCurrentProcessorAvailableThreads();
             this->throwIfMultithreadingIsNotSupported();
             this->throwIfMaximumThreadsIsExceeded();
         }
