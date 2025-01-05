@@ -1,5 +1,6 @@
 #include <getopt.h>
 #include <memory>
+#include <string>
 #include "Headers/RandomWalkModel.h"
 #include "Headers/RandomWalkModelParallel.h"
 #include "Headers/State.h"
@@ -14,6 +15,7 @@ int main(int argc, char* argv[])
     int populationMatrixSize = 100;
     int numberOfGenerations = 10;
     double contagionFactor = 0.5;
+    int requestedStateCount = static_cast<int>(State::dead);
     bool applySocialDistanceEffect = false;
     int threadCount = 1;
     bool generateImage = false;
@@ -22,26 +24,39 @@ int main(int argc, char* argv[])
     //Don't move.
 
     //TODO: Add support to long params.
-    const char* shortOptions = "r:p:g:st:c:ihv";
+    const char* shortOptions = "r:p:g:st:c:o:ihv";
     int cliOption;
     while ((cliOption = getopt(argc, argv, shortOptions)) != -1) {
         switch (cliOption) {
-            case 'r':
+            case 'r': {
                 numberOfRuns = stoi(optarg);
-            break;
-            case 'p':
+            } break;
+            case 'p': {
                 populationMatrixSize = stoi(optarg);
-            break;
-            case 'g':
+            } break;
+            case 'g': {
                 numberOfGenerations = stoi(optarg);
-            break;
-            case 's':
+            } break;
+            case 's': {
                 applySocialDistanceEffect = true;
-            break;
-            case 't':
-                threadCount = stoi(optarg);
-            break;
-            case 'c':
+            } break;
+            case 't': {
+                try
+                {
+                    int requestedThreadCount = stoi(optarg);
+                    if(requestedThreadCount < 1) {
+                        throw out_of_range("ERROR: THE REQUESTED THREADS COUNT IS LESS THAN 1.");
+                    }
+                    threadCount = requestedThreadCount;
+                }
+                catch(const out_of_range& exception)
+                {
+                    cerr << exception.what() << endl;
+                    exit(EXIT_FAILURE);
+                }
+                
+            } break;
+            case 'c': {
                 try
                 {
                     const int MIN_CONTAGION_FACTOR = 0;
@@ -61,10 +76,26 @@ int main(int argc, char* argv[])
                     cerr << exception.what() << endl;
                     exit(EXIT_FAILURE);
                 }
-            break;
-            case 'i':
+            } break;
+            case 'o': {
+                try
+                {
+                    int requestedStateValue = stoi(optarg);
+                    int stateEnumValuesCount = 5;
+                    if(requestedStateValue < 0 || requestedStateValue > stateEnumValuesCount) {
+                        throw out_of_range("ERROR: Invalid state: " + to_string(requestedStateValue) + ".");
+                    }
+                    requestedStateCount = requestedStateValue;
+                }
+                catch(const out_of_range& exception)
+                {
+                    cerr << exception.what() << endl;
+                    exit(EXIT_FAILURE);
+                }
+            } break;
+            case 'i': {
                 generateImage = true;
-            break;
+            } break;
             case 'h':
                 printHelp();
             exit(EXIT_SUCCESS); //Terminate the program.
@@ -121,7 +152,7 @@ int main(int argc, char* argv[])
                 model->setTransitionProbabilities(transitionProbabilities);
                 model->parallelSimulation(numberOfGenerations);
                 //Print the individuals count based on current state.
-                cout << model->getStateCount(State::dead) << endl;
+                cout << model->getStateCount(State(requestedStateCount)) << endl;
             }
             if(generateImage) {
                 model->generateImage();
@@ -134,7 +165,7 @@ int main(int argc, char* argv[])
                 model = make_unique<RandomWalkModel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect);
                 model->setTransitionProbabilities(transitionProbabilities);
                 model->simulation(numberOfGenerations);
-                cout << model->getStateCount(State::dead) << endl;
+                cout << model->getStateCount(State(requestedStateCount)) << endl;
             }
             if(generateImage) {
                 model->generateImage();
