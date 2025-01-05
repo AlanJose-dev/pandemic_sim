@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const char VERSION[] = "0.4.5";
+const char VERSION[] = "0.4.6";
 
 inline const char * const boolToString(bool boolean)
 {
@@ -52,10 +52,17 @@ void printHelp()
     cout << "                 [-g <value>] [-s] [-t <value>]" << endl;
     cout << "                 [-c <value>] [-i]" << endl;
     cout << "\n" << endl;
-    cout << "Multithreading is available: " << boolToString(MultithreadingController::currentProcessorSupportsMultithreading()) << "." << endl;
-    cout << "CPU Threads available: " << MultithreadingController::getCurrentProcessorAvailableThreads() << "." << endl;
+    cout << "Multithreading is available : " << boolToString(MultithreadingController::currentProcessorSupportsMultithreading()) << "." << endl;
+    cout << "CPU Threads available       : " << MultithreadingController::getCurrentProcessorAvailableThreads() << "." << endl;
     cout << "\n" << endl;
-    cout << "Parameter descriptions:" << endl;
+    cout << "Individual states           : " << endl;
+    cout << "Healthy                     : " << "0" << endl;
+    cout << "Isolated                    : " << "1" << endl;
+    cout << "Sick                        : " << "2" << endl;
+    cout << "Dead                        : " << "3" << endl;
+    cout << "Immune                      : " << "4" << endl;
+    cout << "\n" << endl;
+    cout << "Parameter descriptions      :" << endl;
     cout << "-v (version)                :       Show the program version." << endl;
     cout << "-h (help)                   :       Show this message." << endl;
     cout << "-r (runs)                   :       Define how many times the model will be executed, determining the number of results (integer)." << endl;
@@ -64,9 +71,10 @@ void printHelp()
     cout << "-s (social distance effect) :       Run the simulations with the social distancing/lockdown effect applied, reducing the disease contagion factor." << endl;
     cout << "-t (threads)                :       Run the simulations with a multi-threaded profile. Specifies the number of threads the program may use. The maximum value is the number of threads available on the current processor (integer)." << endl;
     cout << "-c (contagion factor)       :       Defines the disease contagion factor, minimum 0.1, maximum 1 (double)." << endl;
+    cout << "-o (state to output)        :       Defines the state for which you want to obtain the number of affected individuals (integer)." << endl;
     cout << "-i (image on finish)        :       Generate a visual disease spread example as a .png image." << endl;
     cout << "---------------------------------------------------------------------------------------------" << endl;
-    cout << "Default params: runs(100), population matrix size(100), generations(10), contagion factor(0.5), apply social distance effect(false), thread count(1), generate image(false)" << endl;
+    cout << "Default params: r(100), p(100), p(10), c(0.5), o(3), s(false), t(1), i(false)" << endl;
 }
 
 void printVersion()
