@@ -36,7 +36,7 @@ class RandomWalkModelParallel : public RandomWalkModel {
         void throwIfMultithreadingIsNotSupported()
         {
             if(this->threadCount == 0) {
-                throw out_of_range("ERROR: THE CURRENT PROCESSOR DOES NOT SUPPORTS MULTITHREADING.");
+                throw out_of_range("ERROR: THE CURRENT PROCESSOR DOES NOT SUPPORTS MULTITHREADING, PLEASE REMOVE THE '-t' PARAM.");
             }
         }
 
