@@ -22,91 +22,110 @@ int main(int argc, char* argv[])
     
     //Parse CLI options.
     //Don't move.
-
-    //TODO: Add support to long params.
     const char* shortOptions = "r:p:g:st:c:o:ihv";
+    const option longOptions[] = {
+        {"runs", optional_argument, nullptr, 'r'},
+        {"population", optional_argument, nullptr, 'p'},
+        {"generations", optional_argument, nullptr, 'g'},
+        {"social-distance-effect", no_argument, nullptr, 's'},
+        {"threads", optional_argument, nullptr, 't'},
+        {"contagion-factor", optional_argument, nullptr, 'c'},
+        {"output-state", optional_argument, nullptr, 'o'},
+        {"image", no_argument, nullptr, 'i'},
+        {"version", no_argument, nullptr, 'v'},
+        {"help", no_argument, nullptr, 'h'},
+        {nullptr, no_argument, nullptr, 0}
+    };
     int cliOption;
-    while ((cliOption = getopt(argc, argv, shortOptions)) != -1) {
-        switch (cliOption) {
-            case 'r': {
-                numberOfRuns = stoi(optarg);
-            } break;
-            case 'p': {
-                populationMatrixSize = stoi(optarg);
-            } break;
-            case 'g': {
-                numberOfGenerations = stoi(optarg);
-            } break;
-            case 's': {
-                applySocialDistanceEffect = true;
-            } break;
-            case 't': {
-                try
-                {
-                    int requestedThreadCount = stoi(optarg);
-                    if(requestedThreadCount < 1) {
-                        throw out_of_range("ERROR: THE REQUESTED THREADS COUNT IS LESS THAN 1.");
-                    }
-                    threadCount = requestedThreadCount;
+    while ((cliOption = getopt_long(argc, argv, shortOptions, longOptions, nullptr)) != -1) {
+    switch (cliOption) {
+        case 'r': {
+            if (optarg == nullptr && optind < argc && argv[optind][0] != '-') {
+                optarg = argv[optind++];
+            }
+            numberOfRuns = stoi(optarg);
+        } break;
+        case 'p': {
+            if (optarg == nullptr && optind < argc && argv[optind][0] != '-') {
+                optarg = argv[optind++];
+            }
+            populationMatrixSize = stoi(optarg);
+        } break;
+        case 'g': {
+            if (optarg == nullptr && optind < argc && argv[optind][0] != '-') {
+                optarg = argv[optind++];
+            }
+            numberOfGenerations = stoi(optarg);
+        } break;
+        case 's': {
+            applySocialDistanceEffect = true;
+        } break;
+        case 't': {
+            if (optarg == nullptr && optind < argc && argv[optind][0] != '-') {
+                optarg = argv[optind++];
+            }
+            try {
+                int requestedThreadCount = stoi(optarg);
+                if (requestedThreadCount < 1) {
+                    throw out_of_range("ERROR: THE REQUESTED THREADS COUNT IS LESS THAN 1.");
                 }
-                catch(const out_of_range& exception)
-                {
-                    cerr << exception.what() << endl;
-                    exit(EXIT_FAILURE);
+                threadCount = requestedThreadCount;
+            } catch (const out_of_range& exception) {
+                cerr << exception.what() << endl;
+                exit(EXIT_FAILURE);
+            }
+        } break;
+        case 'c': {
+            if (optarg == nullptr && optind < argc && argv[optind][0] != '-') {
+                optarg = argv[optind++];
+            }
+            try {
+                const double MIN_CONTAGION_FACTOR = 0.0;
+                const double MAX_CONTAGION_FACTOR = 1.0;
+                double givenContagionFactor = stod(optarg);
+                if (givenContagionFactor < MIN_CONTAGION_FACTOR || givenContagionFactor > MAX_CONTAGION_FACTOR) {
+                    throw out_of_range("ERROR: The contagion factor must be between " +
+                                       to_string(MIN_CONTAGION_FACTOR) + " and " +
+                                       to_string(MAX_CONTAGION_FACTOR) + ".");
                 }
-                
-            } break;
-            case 'c': {
-                try
-                {
-                    const int MIN_CONTAGION_FACTOR = 0;
-                    const int MAX_CONTAGION_FACTOR = 1;
-                    double givenContagionFactor = stod(optarg);
-                    if(givenContagionFactor < MIN_CONTAGION_FACTOR || givenContagionFactor > MAX_CONTAGION_FACTOR) {
-                        throw out_of_range("ERROR: The contagion factor must be between " + to_string(MIN_CONTAGION_FACTOR) + " and " + to_string(MAX_CONTAGION_FACTOR) + ".");
-                    }
-                    contagionFactor = givenContagionFactor;
+                contagionFactor = givenContagionFactor;
+            } catch (const invalid_argument&) {
+                cerr << "Error: Invalid argument for -c. Expected a double.\n" << endl;
+            } catch (const out_of_range& exception) {
+                cerr << exception.what() << endl;
+                exit(EXIT_FAILURE);
+            }
+        } break;
+        case 'o': {
+            if (optarg == nullptr && optind < argc && argv[optind][0] != '-') {
+                optarg = argv[optind++];
+            }
+            try {
+                int requestedStateValue = stoi(optarg);
+                int stateEnumValuesCount = 5;
+                if (requestedStateValue < 0 || requestedStateValue > stateEnumValuesCount) {
+                    throw out_of_range("ERROR: Invalid state: " + to_string(requestedStateValue) + ".");
                 }
-                catch(const invalid_argument&)
-                {
-                    cerr << "Error: Invalid argument for -c. Expected a double.\n" << endl;
-                }
-                catch(const out_of_range& exception)
-                {
-                    cerr << exception.what() << endl;
-                    exit(EXIT_FAILURE);
-                }
-            } break;
-            case 'o': {
-                try
-                {
-                    int requestedStateValue = stoi(optarg);
-                    int stateEnumValuesCount = 5;
-                    if(requestedStateValue < 0 || requestedStateValue > stateEnumValuesCount) {
-                        throw out_of_range("ERROR: Invalid state: " + to_string(requestedStateValue) + ".");
-                    }
-                    requestedStateCount = requestedStateValue;
-                }
-                catch(const out_of_range& exception)
-                {
-                    cerr << exception.what() << endl;
-                    exit(EXIT_FAILURE);
-                }
-            } break;
-            case 'i': {
-                generateImage = true;
-            } break;
-            case 'h':
-                printHelp();
-            exit(EXIT_SUCCESS); //Terminate the program.
-            case 'v':
-                printVersion();
+                requestedStateCount = requestedStateValue;
+            } catch (const out_of_range& exception) {
+                cerr << exception.what() << endl;
+                exit(EXIT_FAILURE);
+            }
+        } break;
+        case 'i': {
+            generateImage = true;
+        } break;
+        case 'h':
+            printHelp();
             exit(EXIT_SUCCESS);
-            default:
-                cerr << "Unknown option. Use -h for usage information.\n";
+        case 'v':
+            printVersion();
+            exit(EXIT_SUCCESS);
+        default:
+            cerr << "Unknown option. Use -h for usage information.\n";
             exit(EXIT_FAILURE);
-        }
     }
+}
 
     //Switch the probabilities as you need.
 
@@ -156,7 +175,6 @@ int main(int argc, char* argv[])
             }
             if(generateImage) {
                 model->generateImage();
-                cout << "\nImage generated." << endl;
             }
         }
         else {
@@ -165,6 +183,7 @@ int main(int argc, char* argv[])
                 model = make_unique<RandomWalkModel>(populationMatrixSize, contagionFactor, applySocialDistanceEffect);
                 model->setTransitionProbabilities(transitionProbabilities);
                 model->simulation(numberOfGenerations);
+                //Print the individuals count based on current state.
                 cout << model->getStateCount(State(requestedStateCount)) << endl;
             }
             if(generateImage) {
