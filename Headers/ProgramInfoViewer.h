@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const char VERSION[] = "0.4.6";
+const char VERSION[] = "0.4.7";
 
 inline const char * const boolToString(bool boolean)
 {
