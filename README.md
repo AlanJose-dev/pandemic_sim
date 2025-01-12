@@ -171,9 +171,3 @@ Displays version and system information.
 Displays a help message with an explanation of the parameters.
 </p>
 </div>
-
-### For devs
-
-<p>
-If you want to modify this program, consult the document <a href=".\docs\FOR_DEVS.md">FOR_DEVS.md</a>.
-</p>
