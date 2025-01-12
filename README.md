@@ -158,13 +158,6 @@ If this option is present, the program will generate an image as a visual exampl
   <li><b style="color: red;">Red</b> (Dead)</li>
   <li><b style="color: blue;">Blue</b> (Immune)</li>
 </ul>
-The generated images contain the simulation timestamp as the file name, e.g. <code>Visual_Example_20250103_114150.png</code>. The image generated as a result will look something like this:
-
-<br>
-
-<div>
-  <img src="https://github.com/AlanJose-dev/pandemic_sim/blob/master/docs/visual_example_doc.png" alt="Visual example demo"/>
-</div>
 
 #### -v (version)
 
@@ -178,9 +171,3 @@ Displays version and system information.
 Displays a help message with an explanation of the parameters.
 </p>
 </div>
-
-### For devs
-
-<p>
-If you want to modify this program, consult the document <a href=".\docs\FOR_DEVS.md">FOR_DEVS.md</a>.
-</p>
