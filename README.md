@@ -103,7 +103,7 @@ of individuals who have the status required in the execution.
 <b>Pandemic Sim</b> is a <i>CLI</i> program, which receives parameters for configuring the simulation. To run the program, simply call the <i>simulator</i> executable.
 </p>
 
-<code>.\simulator.exe -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -i</code>
+<code>.\simulator.exe -r &lt;value&gt; -p &lt;value&gt; -g &lt;value&gt; -c &lt;value&gt; -s -t &lt;value&gt; -o &lt;value&gt; -i</code>
 
 <hr>
 
@@ -111,43 +111,55 @@ of individuals who have the status required in the execution.
 
 <div style="background-color: rgba(0, 0, 0, .2); padding: 1rem; border-radius: .5rem;">
 
-#### -r (runs)
+#### -r | --runs
 
 <p>
 Specifies the number of executions (results) you want to obtain. The default value is 1000.
 </p>
 
-#### -p (population matrix size)
+#### -p | --population
 
 <p>
 Defines the size of the target population matrix, as it is a square, only one side is needed, e.g. 50 (50 * 50). The default value is 100.
 </p>
 
-#### -g (generations)
+#### -g | --generations
 
 <p>
 Defines the duration of each execution, for the interpretation of the results, it is understood as weeks. The default value is 52 (one year).
 </p>
 
-#### -c (contagion factor)
+#### -c | --contagion-factor
 
 <p>
 It defines the contagion factor of the disease, which is a metric that informs its probability of transmission. It is given by values ​​between 0.1 and 1. Any value below or above this range will cause an exception <a href="https://cplusplus.com/reference/stdexcept/out_of_range/"><i>out_of_range</i></a>. The default value is 0.5.
 </p>
 
-#### -s (social-distance effect)
+#### -s | --social-distance-effect
 
 <p>
 Enables the effect of social distancing/lockdown in the simulation, with this feature active, the contagion factor will suffer a cumulative reduction based on the number of individuals in the <i>isolated</i> state, and at the end of the execution it will be reset to the value standard. This parameter requires no values.
 </p>
 
-#### -t (threads)
+#### -t | --threads
 
 <p>
 The program supports <a href="https://blog.tecnospeed.com.br/o-que-e-multithreading-e-como-a-tecnica-beneficia-seu-software/">multithreading</a>, but it uses only one thread by default. If the machine has more threads and you wish to use them to distribute the processing load, simply inform the quantity to be used through this parameter. The maximum value is the number of threads present on the current CPU. If a value 0 or greater than the available quantity is passed, it will cause an <i>out_of_range</i> exception. To check the number of threads available, simply consult the processor information or use the <code>-h</code> option, the information will be available there.
 </p>
 
-#### -i (image)
+#### -o | --output-state
+
+<p>
+This parameter informs the state of the number of individuals that should be displayed at the end of each simulation.
+<ul>
+  <li><b style="color: green;">Healthy</b>: 0</li>
+  <li><b style="color: black;">Isolated</b>: 1</li>
+  <li><b style="color: yellow;">Sick</b>: 2</li>
+  <li><b style="color: red;">Dead</b>: 3</li>
+  <li><b style="color: blue;">Immune</b>: 4</li>
+</ul>
+
+#### -i | --image
 
 <p>
 If this option is present, the program will generate an image as a visual example of the dispersion of individuals with each state represented by a color.
@@ -159,13 +171,13 @@ If this option is present, the program will generate an image as a visual exampl
   <li><b style="color: blue;">Blue</b> (Immune)</li>
 </ul>
 
-#### -v (version)
+#### -v | --version
 
 <p>
 Displays version and system information.
 </p>
 
-#### -h (version)
+#### -h | --help
 
 <p>
 Displays a help message with an explanation of the parameters.
